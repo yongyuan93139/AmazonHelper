@@ -1,0 +1,16 @@
+CREATE TABLE sku_basic_info
+(
+  oid character varying(64),
+  sku character varying(64),
+  weight numeric(20,5),
+  standard_price numeric(20,5),
+  price_unit character varying(20),
+  length numeric(20,5),
+  width numeric(20,5),
+  height numeric(20,5)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sku_basic_info
+  OWNER TO postgres;

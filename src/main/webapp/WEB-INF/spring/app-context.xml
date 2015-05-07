@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+	<context:annotation-config />
+	<context:component-scan base-package="com.huluset.dao" />  <!-- 自动扫描所有注解该路径 -->
+	<context:component-scan base-package="com.huluset.entities" />  <!-- 自动扫描所有注解该路径 -->
+	<context:component-scan base-package="com.huluset.service" />  <!-- 自动扫描所有注解该路径 -->
+
+	<!-- dataSource for MySQL -->
+	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://192.168.1.249:5432/postgres" />
+		<property name="username" value="postgres" />
+		<property name="password" value="password" />
+	</bean>
+
+	<bean id="TransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!--1:配置一个JdbcTemplate实例，并将这个“共享的”，“安全的”实例注入到不同的DAO类中去 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 基于XML配置 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.huluset.service.impl.*.*(..))"
+			id="transactioncut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="transactioncut" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="TransactionManager">
+		<tx:attributes>
+			<tx:method name="do*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" propagation="SUPPORTS" />
+		</tx:attributes>
+	</tx:advice>
+</beans>
