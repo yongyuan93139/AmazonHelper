@@ -5,36 +5,40 @@
 </head>
 <script type="text/javascript">
 	$(function() {
-		$('#templateList').jtable({
-			title : '库存列表',
-			paging : true, //Enable paging
-			pageSize : 10, //Set page size (default: 10)
-			messages : {
-				pagingInfo : '显示 {0}-{1}条   总共{2}条',
-				gotoPageLabel : '跳转到',
-				pageSizeChangeLabel : '每页显示',
-				loadingMessage : '数据加载中...',
-				editRecord : '详细',
-				noDataAvailable : '没有数据！'
+		$('#extAttrList').w2grid({
+			name : "extAttrList",
+			header : '扩展属性列表',
+			multiSelect : false,
+			show : {
+				buttons : true,
+				header : true,
+				toolbar : true,
+				toolbarSearch   : false,
+				toolbarColumns  : false,
+				footer : true
 			},
-			actions : {
-				listAction : basePath + '/extTemplate_query.do'
-			},
-			fields: {  
-				oid: {
-	                title:'主键',  
-	                width:'50%' 
-				},
-				sku: {
-	                title:'库存编号',  
-	                width:'50%' 
-				}
-			}
+			url : basePath + '/extTemplate_query.do',
+			columns : [ {
+				field : 'oid',
+				caption : '主键',
+				size : '50%'
+			}, {
+				field : 'columnId',
+				caption : '列标识',
+				size : '50%'
+			} , {
+				field : 'groupId',
+				caption : '组标识',
+				size : '50%'
+			}, {
+				field : 'labelName',
+				caption : '显示名',
+				size : '50%'
+			}],
 		});
-		$('#templateList').jtable('load');
 	});
 </script>
 <body style="height: 100%; width: 100%;">
-	<div id="templateList" style="height: 100%; width: 100%;"></div>
+	<div id="extAttrList" style="height: 50%; width: 100%;"></div>
 </body>
 </html>

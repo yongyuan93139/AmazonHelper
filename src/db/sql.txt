@@ -1,3 +1,17 @@
+CREATE TABLE sku_template
+(
+  oid character varying(64),
+  column_id character varying(64),
+  group_id character varying(100),
+  label_name character varying(100)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sku_basic_info
+  OWNER TO postgres;
+  
+
 CREATE TABLE sku_basic_info
 (
   oid character varying(64),
@@ -14,3 +28,39 @@ WITH (
 );
 ALTER TABLE sku_basic_info
   OWNER TO postgres;
+  
+CREATE TABLE sku_fit_country
+(
+  skuoid character varying(64),
+  country_id character varying(64)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sku_basic_info
+  OWNER TO postgres;
+  
+CREATE TABLE country
+(
+  oid character varying(64),
+  country_code character varying(64),
+  country_name character varying(64)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sku_basic_info
+  OWNER TO postgres;
+  
+CREATE TABLE ext_properties
+(
+  oid character varying(64),
+  skuoid character varying(64),
+  column_id character varying(200),
+  column_value character varying(500)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sku_basic_info
+  OWNER TO postgres;  

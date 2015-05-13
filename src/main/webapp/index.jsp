@@ -7,7 +7,16 @@
 	$(function() {
 		$("#menus").selectmenu({
 			change : function(event, data) {
-				openSrc('/extTemplate.do');
+				switch (data.item.value) {
+				case "sku_manage":
+					openSrc('/skuManage.do');
+					break;
+				case "template_manage":
+					openSrc('/extTemplate.do');
+					break;
+				default:
+					break;
+				}
 			}
 		});
 	});
@@ -36,6 +45,7 @@ select {
 <body style="width:100%;height: 100%;">
 	<div>
 		<select name="menus" id="menus">
+			<option value=""></option>
 			<option value="sku_manage">库存管理</option>
 			<option value="template_manage">模板配置</option>
 		</select>
